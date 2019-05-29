@@ -10,7 +10,7 @@ import UIKit
 
 var playerChoice = "unset"
 var turn = 0
-let cpu = CPU_level2()
+let cpu = CPU_level5()
 
 var cpuScore = 0
 var playerScore = 0

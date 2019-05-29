@@ -12,6 +12,7 @@ class CPU {
     var CPU_choice = "unset"
     var winner = 0
     var lastLoss = "None"
+    var lastHandThrown = "None"
     
     func compare(playerChoice: String) -> String {
         if(playerChoice == CPU_choice){
@@ -21,31 +22,37 @@ class CPU {
         else if(playerChoice == "rock" && CPU_choice == "paper"){
             winner = 2
             lastLoss = "None"
+            lastHandThrown = "paper"
             return "player chose rock and cpu chose paper so \ncpu wins"
         }
         else if(playerChoice == "rock" && CPU_choice == "scissors"){
             winner = 1
             lastLoss = "rock"
+            lastHandThrown = "scissors"
             return "player chose rock and cpu chose scissors so \nplayer wins"
         }
         else if(playerChoice == "paper" && CPU_choice == "scissors"){
             winner = 2
             lastLoss = "None"
+            lastHandThrown = "scissors"
             return "player chose paper and cpu chose scissors so \ncpu wins"
         }
          else if(playerChoice == "paper" && CPU_choice == "rock"){
             winner = 1
             lastLoss = "paper"
+            lastHandThrown = "rock"
             return "player chose paper and cpu chose rock so \nplayer wins"
         }
         else if(playerChoice == "scissors" && CPU_choice == "rock"){
             winner = 2
             lastLoss = "None"
+            lastHandThrown = "rock"
             return "player chose scissors and cpu chose rock so \ncpu wins"
         }
          else if(playerChoice == "scissors" && CPU_choice == "paper"){
             winner = 1
             lastLoss = "scissors"
+            lastHandThrown = "paper"
             return "player chose scissors and cpu chose paper so \nplayer wins"
         }
        else {
@@ -73,10 +80,15 @@ class CPU {
     }
     
     func getHint() -> String{
-        return "defult CPU, completely random"
+        return "Defult CPU, completely random"
     }
     
-    
+    func getCPU_Choice() -> String{
+        return CPU_choice
+    }
+    func setCPU_Choice(newChoice:String) -> Void{
+        CPU_choice = newChoice
+    }
 }
 //biased towards random hand
 class CPU_level1 : CPU{
@@ -107,7 +119,7 @@ class CPU_level1 : CPU{
     }
     
     override func getHint() -> String{
-        return "has bias towards favorite hand"
+        return "Has bias towards favorite hand"
     }
 }
 
@@ -130,9 +142,111 @@ class CPU_level2 : CPU{
     }
     
     override func getHint() -> String {
-        return "attempts to learn from losses"
+        return "Attempts to learn from losses"
     }
 }
+
+class CPU_level3 : CPU{
+    
+    override func throw_hand() {
+        if(lastHandThrown=="None"){
+            super.throw_hand()
+        }
+        else{
+            let choiceArray = ["rock","paper","scissors"]
+            var i = 0
+            while(choiceArray[i] != lastHandThrown){
+                i = i+1
+            }
+        
+            let num = arc4random_uniform(30)
+            if(num>0 && num<16){
+                CPU_choice = lastHandThrown
+            }
+            else if(num>=16 && num<23){
+                i = (i+1)%3
+                CPU_choice = choiceArray[i]
+            }
+            else {
+                i = (i+2)%3
+                CPU_choice = choiceArray[i]
+            }
+        }
+    }
+    
+    override func getHint() -> String {
+        return "Influenced by last hand"
+    }
+}
+
+class CPU_level4 : CPU{
+    override func throw_hand() {
+        if(lastHandThrown=="None"){
+            super.throw_hand()
+        }
+       else{
+            let choiceArray = ["rock","paper","scissors"]
+            var i = 0
+            while(choiceArray[i] != lastHandThrown){
+            i = i+1
+            }
+        
+            let num = arc4random_uniform(30)
+            if(num>0 && num<6){
+                CPU_choice = lastHandThrown
+            }
+            else if(num>=6 && num<18){
+                i = (i+1)%3
+                CPU_choice = choiceArray[i]
+            }
+            else {
+                i = (i+2)%3
+                CPU_choice = choiceArray[i]
+            }
+        }
+    }
+    
+    override func getHint() -> String {
+        return "Likes to change things up"
+    }
+}
+
+class CPU_level5 : CPU{
+    var count = 0
+    var curr_CPU: CPU
+    var CPU_Array: [CPU]
+    override init() {
+        let c1 = CPU_level1()
+        let c2 = CPU_level2()
+        let c3 = CPU_level3()
+        let c4 = CPU_level4()
+        CPU_Array = [c1,c2,c3,c4]
+        let num = Int(arc4random_uniform(4))
+        curr_CPU = CPU_Array[num]
+    }
+    
+    override func throw_hand() {
+        if(count%10 == 0){
+            let num = Int(arc4random_uniform(4))
+            curr_CPU = CPU_Array[num]
+            curr_CPU.throw_hand()
+            setCPU_Choice(newChoice: curr_CPU.getCPU_Choice())
+            count = count + 1
+        }
+        else {
+            curr_CPU.throw_hand()
+            setCPU_Choice(newChoice: curr_CPU.getCPU_Choice())
+            count = count + 1
+        }
+    }
+    
+    override func getHint() -> String {
+        return "Combination of several strategies.  Switchs up every 10 turns"
+       //return curr_CPU.getHint()
+    }
+    
+}
+
 
 
 
