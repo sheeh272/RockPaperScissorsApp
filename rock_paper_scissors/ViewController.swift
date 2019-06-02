@@ -10,12 +10,17 @@ import UIKit
 
 var playerChoice = "unset"
 var turn = 0
-let cpu = CPU_level5()
+//var cpu = CPU_level5()
 
 var cpuScore = 0
 var playerScore = 0
 
 class ViewController: UIViewController {
+     var cpu: CPU = CPU()
+
+    @IBAction func BackButton(_ sender: Any) {
+         dismiss(animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
