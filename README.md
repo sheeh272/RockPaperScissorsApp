@@ -1,1 +1,2 @@
 # RockPaperScissorsApp
+    In terms of UI this project has a home screen which can be used to segue to the main viewController which is configured using to segue prepare function. The idea behind the app is to provide 5 different rock paper scissors CPUs with a noticeable pattern to their play with the idea that the user can win against the CPU if they are attentive. Hints are provided in case it is too difficult

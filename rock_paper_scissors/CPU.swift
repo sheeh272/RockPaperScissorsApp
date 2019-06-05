@@ -122,10 +122,8 @@ class CPU_level1 : CPU{
         return "Has bias towards favorite hand"
     }
 }
-
+//throws hand that would have won against last loss
 class CPU_level2 : CPU{
-    
-   
     override func throw_hand() {
         if(lastLoss == "None"){
             super.throw_hand()
@@ -145,9 +143,8 @@ class CPU_level2 : CPU{
         return "Attempts to learn from losses"
     }
 }
-
+//higher chance of throwing consecutive hands
 class CPU_level3 : CPU{
-    
     override func throw_hand() {
         if(lastHandThrown=="None"){
             super.throw_hand()
@@ -158,7 +155,6 @@ class CPU_level3 : CPU{
             while(choiceArray[i] != lastHandThrown){
                 i = i+1
             }
-        
             let num = arc4random_uniform(30)
             if(num>0 && num<16){
                 CPU_choice = lastHandThrown
@@ -178,7 +174,7 @@ class CPU_level3 : CPU{
         return "Influenced by last hand"
     }
 }
-
+//lower chance of throwing consecutive hands
 class CPU_level4 : CPU{
     override func throw_hand() {
         if(lastHandThrown=="None"){
@@ -188,9 +184,8 @@ class CPU_level4 : CPU{
             let choiceArray = ["rock","paper","scissors"]
             var i = 0
             while(choiceArray[i] != lastHandThrown){
-            i = i+1
+                i = i+1
             }
-        
             let num = arc4random_uniform(30)
             if(num>0 && num<6){
                 CPU_choice = lastHandThrown
@@ -210,7 +205,7 @@ class CPU_level4 : CPU{
         return "Likes to change things up"
     }
 }
-
+//combination of previous stratagies.  switches every 10 turns
 class CPU_level5 : CPU{
     var count = 0
     var curr_CPU: CPU
@@ -244,7 +239,6 @@ class CPU_level5 : CPU{
         return "Combination of several strategies.  Switchs up every 10 turns"
        //return curr_CPU.getHint()
     }
-    
 }
 
 

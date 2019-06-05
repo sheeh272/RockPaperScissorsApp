@@ -8,14 +8,11 @@
 
 import UIKit
 
-var playerChoice = "unset"
-var turn = 0
-//var cpu = CPU_level5()
-
-var cpuScore = 0
-var playerScore = 0
-
 class ViewController: UIViewController {
+     var playerChoice = "unset"
+     var turn = 0
+     var cpuScore = 0
+     var playerScore = 0
      var cpu: CPU = CPU()
 
     @IBAction func BackButton(_ sender: Any) {
@@ -44,19 +41,20 @@ class ViewController: UIViewController {
             cpuScoreView.text = String(cpuScore)
         }
     }
-
+    
+    //sleep is used in functions below in case user decides to spam buttons
     @IBAction func paper(_ sender: UIButton) {
         if(turn == 0){
             turn = 1;
             playerChoice = "paper"
             cpu.throw_hand()
-            text.text = cpu.compare(playerChoice: playerChoice)
+            textView.text = cpu.compare(playerChoice: playerChoice)
             sleep(1)
             updateScore(winner: cpu.getWinner())
             turn = 0;
         }
         else{
-            text.text = "waiting for cpu"
+            textView.text = "waiting for cpu"
         }
     }
  
@@ -65,15 +63,14 @@ class ViewController: UIViewController {
             turn = 1;
             playerChoice = "rock"
             cpu.throw_hand()
-            text.text = cpu.compare(playerChoice: playerChoice)
+            textView.text = cpu.compare(playerChoice: playerChoice)
             sleep(1)
             updateScore(winner: cpu.getWinner())
             turn = 0;
         }
          else{
-            text.text = "waiting for cpu"
+            textView.text = "waiting for cpu"
         }
-    
     }
     
     @IBAction func Scissors(_ sender: UIButton) {
@@ -81,24 +78,24 @@ class ViewController: UIViewController {
             turn = 1;
             playerChoice = "scissors"
             cpu.throw_hand()
-            text.text = cpu.compare(playerChoice: playerChoice)
+            textView.text = cpu.compare(playerChoice: playerChoice)
             sleep(1)
             updateScore(winner: cpu.getWinner())
             turn = 0;
         }
          else{
-            text.text = "waiting for cpu"
+            textView.text = "waiting for cpu"
          }
     }
     
-    @IBOutlet weak var text: UITextView!
+    @IBOutlet weak var textView: UITextView!
     
     @IBOutlet weak var cpuScoreView: UITextField!
     
     @IBOutlet weak var playerScoreView: UITextField!
     
     @IBAction func hintButton(_ sender: UIButton) {
-        text.text = cpu.getHint()
+        textView.text = cpu.getHint()
     }
     
 }
